@@ -50,12 +50,7 @@ public class Midlet extends MIDlet implements CommandListener {
     public void destroyApp(boolean unconditional) {
         notifyDestroyed();
     }
-    public void menu() {
-        RecordTimeform f1 = new RecordTimeform("Record Time", Display.getDisplay(this).getCurrent());
-        f1.setTicker(newsTicker);
-        display = Display.getDisplay(this);
-        display.setCurrent(f1);
-    }
+   
 
     public void tryAgain() {
         Alert error = new Alert("Login Incorrect", "Please try again", null, AlertType.ERROR);
@@ -96,6 +91,14 @@ public class Midlet extends MIDlet implements CommandListener {
 
         }
     }
+     public void menu() {
+        RecordTimeform f1 = new RecordTimeform("Record Time", Display.getDisplay(this).getCurrent(),uid);
+        //ManageTag.ManageTagform f1 = new ManageTagform(display, uid);
+        f1.setTicker(newsTicker);
+        f1.setDisplay(this.display);
+        display = Display.getDisplay(this);
+        display.setCurrent(f1);
+    }
 
     public static String[] Split(String splitStr, String delimiter) {
         StringBuffer token = new StringBuffer();
@@ -124,5 +127,6 @@ public class Midlet extends MIDlet implements CommandListener {
         }
         return splitArray;
     }
+    
 
 }
