@@ -23,14 +23,14 @@ public class ManageTagform extends Form implements CommandListener {
     Command comAdd;
     Command comEdit;
     Command comSave;
-    Command comDeleteAll;
     Command comDelete;
     ChoiceGroup listGroup;
-    
+
     TextField txtTag = new TextField("", "", 10, TextField.ANY);
     int iItemList;
     Vector listTag;
     public String IdUser;
+    public String IdTag;
 
     public ManageTagform(String title, String uids) {
         super(title);
@@ -42,7 +42,7 @@ public class ManageTagform extends Form implements CommandListener {
         String[] list = Split(trim, "\n");
         for (int i = 0; i < list.length; i++) {
             String[] part = Split(list[i], ";");
-            listGroup.append("" + part[0] + " " + part[1], null);
+            listGroup.append("" + part[1], null);
         }
     }
 
@@ -50,9 +50,13 @@ public class ManageTagform extends Form implements CommandListener {
         append(txtTag);
         form = this;
         comBack = new Command("Back", Command.OK, 2);
+        comAdd = new Command("Add", Command.OK, 2);
+        comDelete = new Command("Delete", Command.OK, 2);
         listGroup = new ChoiceGroup("List Tag:", Choice.EXCLUSIVE);
         //ADD ITEM
         this.addCommand(comBack);
+        this.addCommand(comAdd);
+        this.addCommand(comDelete);
         this.setCommandListener(this);
         iItemList = append(listGroup);
     }
@@ -68,7 +72,29 @@ public class ManageTagform extends Form implements CommandListener {
             f1.setTicker(newsTicker);
             f1.setDisplay(this.display);
             this.display.setCurrent(f1);
+        } else if (c == comAdd) {
+            try {
+                String name = txtTag.getString();
+                BusManageTag busAdd = new BusManageTag();
+                String re = busAdd.AddTag(IdUser, name);
+                Alert altest = new Alert("", re, null, AlertType.WARNING);
+                display.setCurrent(altest, this);
+
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
+        } else if (c == comDelete) {
+            try {
+
+                BusManageTag busDelete = new BusManageTag();
+                String re = busDelete.DeleteTag(IdTag);
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
         }
+
     }
 
     public static String[] Split(String splitStr, String delimiter) {
