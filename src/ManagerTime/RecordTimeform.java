@@ -12,7 +12,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.*;
 import javax.microedition.sensor.Data;
-
+import java.util.Date;
 public final class RecordTimeform extends Form implements CommandListener {
 
     Ticker newsTicker = new Ticker("Java J2ME");
@@ -28,7 +28,10 @@ public final class RecordTimeform extends Form implements CommandListener {
     public String IdUser;
     Vector listTags = new Vector();
     ChoiceGroup listGroup;
-
+    TextField content;
+    DateField date;
+    DateField beginTime;
+    DateField endTime;
     public RecordTimeform(String title, String iUd) {
 
         super(title);
@@ -68,20 +71,20 @@ public final class RecordTimeform extends Form implements CommandListener {
     }
 
     protected void drawGUI() {
-        TextField content = new TextField("Content:", "", 30, TextField.ANY);
+        content = new TextField("Content:", "", 30, TextField.ANY);
         this.append(content);
         //DateField
-        DateField date = new DateField("Date", DateField.DATE);
+        date = new DateField("Date", DateField.DATE);
         date.setDate(new java.util.Date());
         this.append(date);
 
         //beginTime
-        DateField beginTime = new DateField("Begin Time", DateField.DATE);
+        beginTime = new DateField("Begin Time", DateField.TIME);
         date.setDate(new java.util.Date());
         this.append(beginTime);
 
         //endTime
-        DateField endTime = new DateField("End Time", DateField.TIME);
+        endTime = new DateField("End Time", DateField.TIME);
         date.setDate(new java.util.Date());
         this.append(endTime);
         //list
@@ -118,10 +121,27 @@ public final class RecordTimeform extends Form implements CommandListener {
             f1.setDisplay(this.display);
             this.display.setCurrent(f1);
 
+        } else if(label.equals("Add")){
+            getRecordTime();
         }
     }
 
     public void setDisplay(Display display) {
         this.display = display;
+    }
+    
+    public void getRecordTime(){
+        String sContent=content.getString();
+        String sDate=BusManageTime.getDateString(date.getDate());
+        System.out.println(sDate);
+        String sBeginTime=BusManageTime.getTimeString(beginTime.getDate());
+        System.out.println(sBeginTime);
+        String sEndTime=BusManageTime.getTimeString(endTime.getDate());
+        String sIdTag=listTags.elementAt(listGroup.getSelectedIndex()).toString();
+        
+        BusManageTime bus=new BusManageTime();
+        String sResult=bus.AddTime(sIdTag, IdUser, sDate, sBeginTime, sEndTime, sContent);
+        Alert altest = new Alert("", sResult, null, AlertType.WARNING);
+        display.setCurrent(altest, this);
     }
 }
