@@ -7,6 +7,7 @@ package ManageTag;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
@@ -18,25 +19,35 @@ public class BusManageTag {
 
     public String ListTag(String UserId) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/TagServlet?IdUser=" + UserId;
+        Random r = new Random();
+        long l = r.nextLong();
+        String url = "http://localhost:8080/K19T1_Team1/TagServlet?IdUser=" + UserId + "&rand=" + l;
+
         re = ConnectManageTag(url);
         return re;
     }
 
     public String AddTag(String UserId, String nameTag) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/AddTagSeverlet?IdUser=" + UserId + "&NameTag=" + nameTag;
+        String url = "http://localhost:8080/K19T1_Team1/AddTagSeverlet?IdUser=" + UserId + "&name=" + nameTag;
         re = ConnectManageTag(url);
         return re;
     }
 
-    public String DeleteTag(String TagId) {
+    public String Edittag(String UserId, String Idtags, String nameTag) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/DeleteTagSeverlet?IdTag=" + TagId;
+        String url = "http://localhost:8080/K19T1_Team1/EditTagSeverlet?IdUser=" + UserId + "&NameTag=" + nameTag + "&IdTag=" + Idtags;
         re = ConnectManageTag(url);
         return re;
     }
 
+    public String DeleteTag(String Idtags) {
+        String re = "";
+        String url = "http://localhost:8080/K19T1_Team1/DeleteTagSeverlet?IdTag=" + Idtags;
+
+        re = ConnectManageTag(url);
+        return re;
+    }
     public String ConnectManageTag(String URL) {
 
         String re = "";

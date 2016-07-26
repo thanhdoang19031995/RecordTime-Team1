@@ -17,7 +17,7 @@ public class Connect {
     
     public String Login(String Email, String Password){
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/LoginAccount?email="+ Email +"&password="+ Password ;
+        String url = "http://localhost:8080/K19T1_Team1/LoginAccount?email="+ Email +"&password="+ Password ;
         re = Connect(url);
         return re;
     }

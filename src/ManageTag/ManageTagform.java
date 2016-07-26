@@ -6,6 +6,7 @@
 package ManageTag;
 
 import ManagerTime.RecordTimeform;
+
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.*;
@@ -25,39 +26,55 @@ public class ManageTagform extends Form implements CommandListener {
     Command comSave;
     Command comDelete;
     ChoiceGroup listGroup;
-
-    TextField txtTag = new TextField("", "", 10, TextField.ANY);
+    BusManageTag tagBus = new BusManageTag();
+    TextField txtTag = new TextField("", "", 100, TextField.ANY);
     int iItemList;
-    Vector listTag;
     public String IdUser;
     public String IdTag;
+    Vector listTags = new Vector();
+    String currentTagIdselected = null;
 
     public ManageTagform(String title, String uids) {
         super(title);
         showMenu();
         this.IdUser = uids;
-        BusManageTag tag = new BusManageTag();
-        String all = tag.ListTag(IdUser);
+        listag();
+    }
+
+    private void listag() {
+        listGroup.deleteAll();
+        listTags.removeAllElements();
+        String all = tagBus.ListTag(IdUser);
         String trim = all.trim();
         String[] list = Split(trim, "\n");
         for (int i = 0; i < list.length; i++) {
             String[] part = Split(list[i], ";");
-            listGroup.append("" + part[1], null);
+            //listGroup.append("" + part[1], null);
+            System.err.println(part[1]);
+            listGroup.append(part[1], null);
+            listTags.addElement(part[0]);
         }
     }
 
     private void showMenu() {
+        listTags.removeAllElements();
         append(txtTag);
         form = this;
-        comBack = new Command("Back", Command.OK, 2);
-        comAdd = new Command("Add", Command.OK, 2);
-        comDelete = new Command("Delete", Command.OK, 2);
         listGroup = new ChoiceGroup("List Tag:", Choice.EXCLUSIVE);
+        comAdd = new Command("Add", Command.OK, 2);
+        comBack = new Command("Back", Command.OK, 2);
+        comEdit = new Command("Edit", Command.OK, 2);
+        comSave = new Command("Save", Command.OK, 2);
+
+        comDelete = new Command("Delete", Command.OK, 2);
+
+        this.setCommandListener(this);
         //ADD ITEM
         this.addCommand(comBack);
         this.addCommand(comAdd);
+        this.addCommand(comEdit);
+        this.addCommand(comSave);
         this.addCommand(comDelete);
-        this.setCommandListener(this);
         iItemList = append(listGroup);
     }
 
@@ -68,10 +85,11 @@ public class ManageTagform extends Form implements CommandListener {
     //Action
     public void commandAction(Command c, Displayable dsplbl) {
         if (c == comBack) {
-            RecordTimeform f1 = new RecordTimeform("Record Time");
+            RecordTimeform f1 = new RecordTimeform("Record Time", IdUser);
             f1.setTicker(newsTicker);
             f1.setDisplay(this.display);
             this.display.setCurrent(f1);
+
         } else if (c == comAdd) {
             try {
                 String name = txtTag.getString();
@@ -79,22 +97,43 @@ public class ManageTagform extends Form implements CommandListener {
                 String re = busAdd.AddTag(IdUser, name);
                 Alert altest = new Alert("", re, null, AlertType.WARNING);
                 display.setCurrent(altest, this);
+                listag();
 
             } catch (Exception e) {
                 e.getMessage();
             }
-
+        } else if (c == comEdit) {
+            try {
+                int iSelected = listGroup.getSelectedIndex();
+                String sSelected = listGroup.getString(iSelected);
+                txtTag.setString(sSelected);
+                this.currentTagIdselected = (String) listTags.elementAt(iSelected);
+            } catch (Exception e) {
+                e.getMessage();
+            }
         } else if (c == comDelete) {
             try {
+                int iSelected = listGroup.getSelectedIndex();
+                this.currentTagIdselected = (String) listTags.elementAt(iSelected);
+                tagBus.DeleteTag(currentTagIdselected);
+                currentTagIdselected = null;
 
-                BusManageTag busDelete = new BusManageTag();
-                String re = busDelete.DeleteTag(IdTag);
+                Alert altest = new Alert("", "Deleted", null, AlertType.INFO);
+                display.setCurrent(altest, this);
+                listag();
+
             } catch (Exception e) {
                 e.getMessage();
             }
-
+        } else if (c == comSave) {
+            if (currentTagIdselected != null) {
+                tagBus.Edittag(IdUser, this.currentTagIdselected, txtTag.getString());
+                currentTagIdselected = null;
+                Alert altest = new Alert("", "Edited", null, AlertType.INFO);
+                display.setCurrent(altest, this);
+                listag();
+            }
         }
-
     }
 
     public static String[] Split(String splitStr, String delimiter) {
