@@ -43,6 +43,24 @@ public class BusManageTime {
         re = ConnectManageTime(url);
         return re;
     }
+    public String ListTime(String IdUser) {
+        String re = "";
+        String url = "http://localhost:8085/K19T1_Team1/TimeRecordSeverlet?IdUser=" + IdUser ;
+        re = ConnectManageTime(url);
+        return re;
+    }
+    public String DeleteTime(String IdTime) {
+        String re = "";
+        String url = "http://localhost:8085/K19T1_Team1/DeleteTimeRecordSeverlet?IdTime=" + IdTime ;
+        re = ConnectManageTime(url);
+        return re;
+    }
+    public String EditTime(String IdTime ,String IdTag, String DateEnter, String BeginTime, String EndTime, String Content) {
+        String re = "";
+        String url = "http://localhost:8085/K19T1_Team1/EditTimeRecordSeverlet?IdTime=" + IdTime + "&IdTag=" + IdTag + "&DateEnter=" + DateEnter + "&BeginTime=" + BeginTime + "&EndTime=" + EndTime + "&Content=" + Content;
+        re = ConnectManageTime(url);
+        return re;
+    }
 
     public String ConnectManageTime(String URL) {
 

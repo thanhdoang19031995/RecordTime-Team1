@@ -119,6 +119,7 @@ public final class RecordTimeform extends Form implements CommandListener {
         } else if (label.equals("History")) {
             HistoryTimeform f1 = new HistoryTimeform("History",IdUser);
             f1.setDisplay(this.display);
+            f1.setTicker(newsTicker);
             this.display.setCurrent(f1);
 
         } else if(label.equals("Add")){
@@ -133,12 +134,11 @@ public final class RecordTimeform extends Form implements CommandListener {
     public void getRecordTime(){
         String sContent=content.getString();
         String sDate=BusManageTime.getDateString(date.getDate());
-        System.out.println(sDate);
+        //System.out.println(sDate);
         String sBeginTime=BusManageTime.getTimeString(beginTime.getDate());
-        System.out.println(sBeginTime);
+        //System.out.println(sBeginTime);
         String sEndTime=BusManageTime.getTimeString(endTime.getDate());
         String sIdTag=listTags.elementAt(listGroup.getSelectedIndex()).toString();
-        
         BusManageTime bus=new BusManageTime();
         String sResult=bus.AddTime(sIdTag, IdUser, sDate, sBeginTime, sEndTime, sContent);
         Alert altest = new Alert("", sResult, null, AlertType.WARNING);

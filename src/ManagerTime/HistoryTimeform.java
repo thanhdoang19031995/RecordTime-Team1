@@ -26,21 +26,37 @@ public class HistoryTimeform extends Form implements CommandListener {
     Command comSave;
     Command comDelete;
     ChoiceGroup listGroup;
-    //  BusManageTag tagBus = new BusManageTag()
+    BusManageTime busTime = new BusManageTime();
     int iItemList;
     public String IdUser;
     public String IdTag;
-    Vector listTags = new Vector();
-    String currentTagIdselected = null;
+    Vector listTime = new Vector();
+    String currentTimeIdselected = null;
 
     public HistoryTimeform(String title, String uids) {
         super(title);
         showMenu();
         this.IdUser = uids;
+        listime();
+    }
+
+    private void listime() {
+        listGroup.deleteAll();
+        listTime.removeAllElements();
+        String all = busTime.ListTime(IdUser);
+        String trim = all.trim();
+        String[] list = Split(trim, "\n");
+        for (int i = 0; i < list.length; i++) {
+            String[] part = Split(list[i], ";");
+            //listGroup.append("" + part[1], null);
+            System.err.println(part[1] + " " + part[5] + "\n" + part[4] + " " + part[2] + " " + part[3]);
+            listGroup.append(part[1] + " " + part[5] + "\n" + part[4] + " " + part[2] + " " + part[3], null);
+            listTime.addElement(part[0]);
+        }
     }
 
     private void showMenu() {
-        listTags.removeAllElements();
+        listTime.removeAllElements();
         form = this;
         listGroup = new ChoiceGroup("List Record Time:", Choice.EXCLUSIVE);
 //        comAdd = new Command("Add", Command.OK, 2);
@@ -68,12 +84,65 @@ public class HistoryTimeform extends Form implements CommandListener {
             f1.setTicker(newsTicker);
             f1.setDisplay(this.display);
             this.display.setCurrent(f1);
-        }else if (c == comEdit) {
-            EditTimeform f1 = new EditTimeform("Edit Record Time", IdUser);
-            f1.setTicker(newsTicker);
-            f1.setDisplay(this.display);
-            this.display.setCurrent(f1);
+//            else if (c == comEdit) {
+//            try {
+//                int iSelected = listGroup.getSelectedIndex();
+//                String sSelected = listGroup.getString(iSelected);
+//                txtTag.setString(sSelected);
+//                this.currentTagIdselected = (String) listTags.elementAt(iSelected);
+//            } catch (Exception e) {
+//                e.getMessage();
+//            }
+        } else if (c == comEdit) {
+            try {
+                EditTimeform f1 = new EditTimeform("Edit Record Time", IdUser);
+                f1.setTicker(newsTicker);
+                f1.setDisplay(this.display);
+                this.display.setCurrent(f1);
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        } else if (c == comDelete) {
+            try {
+                int iSelected = listGroup.getSelectedIndex();
+                this.currentTimeIdselected = (String) listTime.elementAt(iSelected);
+                busTime.DeleteTime(currentTimeIdselected);
+                currentTimeIdselected = null;
+                Alert altest = new Alert("", "Deleted", null, AlertType.INFO);
+                display.setCurrent(altest, this);
+                listime();
+            } catch (Exception e) {
+                e.getMessage();
+            }
         }
 
+    }
+
+    public static String[] Split(String splitStr, String delimiter) {
+        StringBuffer token = new StringBuffer();
+        Vector tokens = new Vector();
+        // split
+        char[] chars = splitStr.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (delimiter.indexOf(chars[i]) != -1) {
+                // we bumbed into a delimiter
+                if (token.length() > 0) {
+                    tokens.addElement(token.toString());
+                    token.setLength(0);
+                }
+            } else {
+                token.append(chars[i]);
+            }
+        }
+        // don't forget the "tail"...
+        if (token.length() > 0) {
+            tokens.addElement(token.toString());
+        }
+        // convert the vector into an array
+        String[] splitArray = new String[tokens.size()];
+        for (int i = 0; i < splitArray.length; i++) {
+            splitArray[i] = (String) tokens.elementAt(i);
+        }
+        return splitArray;
     }
 }
