@@ -11,7 +11,6 @@ import ManageTag.ManageTagform;
 import java.util.Vector;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.*;
-import javax.microedition.sensor.Data;
 import java.util.Date;
 public final class RecordTimeform extends Form implements CommandListener {
 
@@ -38,10 +37,11 @@ public final class RecordTimeform extends Form implements CommandListener {
         IdUser = iUd;
         //draw 
         this.drawGUI();
+        this.listag();
         // a menu with items
         this.showMenu();
-        this.listag();
         //load data
+        //main = Main;
     }
 
     private void listag() {
@@ -71,21 +71,23 @@ public final class RecordTimeform extends Form implements CommandListener {
     }
 
     protected void drawGUI() {
+        Date dateDefaul=new Date();
         content = new TextField("Content:", "", 30, TextField.ANY);
         this.append(content);
         //DateField
         date = new DateField("Date", DateField.DATE);
-        date.setDate(new java.util.Date());
+        date.setDate(dateDefaul);
         this.append(date);
 
         //beginTime
         beginTime = new DateField("Begin Time", DateField.TIME);
-        date.setDate(new java.util.Date());
+        beginTime.setDate(dateDefaul);
+        //beginTime.s
         this.append(beginTime);
 
         //endTime
         endTime = new DateField("End Time", DateField.TIME);
-        date.setDate(new java.util.Date());
+        endTime.setDate(dateDefaul);
         this.append(endTime);
         //list
         listGroup = new ChoiceGroup("Tag:", Choice.EXCLUSIVE);

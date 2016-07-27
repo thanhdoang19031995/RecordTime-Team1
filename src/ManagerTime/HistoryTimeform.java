@@ -31,6 +31,7 @@ public class HistoryTimeform extends Form implements CommandListener {
     public String IdUser;
     public String IdTag;
     Vector listTime = new Vector();
+    //Vector listTimeAll=new Vector();
     String currentTimeIdselected = null;
 
     public HistoryTimeform(String title, String uids) {
@@ -43,20 +44,23 @@ public class HistoryTimeform extends Form implements CommandListener {
     private void listime() {
         listGroup.deleteAll();
         listTime.removeAllElements();
+        //listTimeAll.removeAllElements();//edit
         String all = busTime.ListTime(IdUser);
         String trim = all.trim();
-        String[] list = Split(trim, "\n");
+        String[] list = Split(trim, "\n");//show list
         for (int i = 0; i < list.length; i++) {
             String[] part = Split(list[i], ";");
             //listGroup.append("" + part[1], null);
             System.err.println(part[1] + " " + part[5] + "\n" + part[4] + " " + part[2] + " " + part[3]);
             listGroup.append(part[1] + " " + part[5] + "\n" + part[4] + " " + part[2] + " " + part[3], null);
             listTime.addElement(part[0]);
+            //listTimeAll.addElement(list[i]);//edit
         }
     }
 
     private void showMenu() {
         listTime.removeAllElements();
+        //listTimeAll.removeAllElements();//edit
         form = this;
         listGroup = new ChoiceGroup("List Record Time:", Choice.EXCLUSIVE);
 //        comAdd = new Command("Add", Command.OK, 2);
@@ -95,10 +99,13 @@ public class HistoryTimeform extends Form implements CommandListener {
 //            }
         } else if (c == comEdit) {
             try {
-                EditTimeform f1 = new EditTimeform("Edit Record Time", IdUser);
+                int iSelected = listGroup.getSelectedIndex();
+                this.currentTimeIdselected = (String) listTime.elementAt(iSelected);
+                EditTimeform f1 = new EditTimeform("Edit Record Time", this.currentTimeIdselected);
                 f1.setTicker(newsTicker);
                 f1.setDisplay(this.display);
                 this.display.setCurrent(f1);
+                currentTimeIdselected = null;
             } catch (Exception e) {
                 e.getMessage();
             }
