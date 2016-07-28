@@ -1,14 +1,14 @@
 package managetime;
 
 import ManagerTime.RecordTimeform;
-import ConnectWeb.Connect;
+import java.util.Random;
 import java.util.Vector;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.lcdui.*;
 
 public class Midlet extends MIDlet implements CommandListener {
 
-    Ticker newsTicker = new Ticker("Start Team");
+    Ticker newsTicker = new Ticker("Java J2ME");
     private Display display;
     private final TextField txtuserName;
     private final TextField txtpassword;
@@ -50,7 +50,6 @@ public class Midlet extends MIDlet implements CommandListener {
     public void destroyApp(boolean unconditional) {
         notifyDestroyed();
     }
-   
 
     public void tryAgain() {
         Alert error = new Alert("Login Incorrect", "Please try again", null, AlertType.ERROR);
@@ -59,7 +58,7 @@ public class Midlet extends MIDlet implements CommandListener {
         txtpassword.setString("");
         display.setCurrent(error, form);
     }
-    ConnectWeb.Connect User = new Connect();
+    BusManageAccount User = new BusManageAccount();
 
     public void commandAction(Command c, Displayable d) {
         //String label = c.getLabel();
@@ -77,7 +76,7 @@ public class Midlet extends MIDlet implements CommandListener {
                 if (part1.equals("Ok")) {
                     uid = "" + idUser;
                     menu();
-                 //   System.out.println("SUCCESSFUL");
+                    System.out.println("SUCCESSFUL");
                 }
             } catch (Exception e) {
                 Alert error = new Alert("Login Incorrect", "Please try again", null, AlertType.ERROR);
@@ -86,13 +85,112 @@ public class Midlet extends MIDlet implements CommandListener {
                 txtpassword.setString("");
                 display.setCurrent(error, form);
                 e.getMessage();
-               // System.out.println("Fail");
+                System.out.println("Fail");
+            }
+        } else if (c == register) {
+            try {
+                String Email = txtuserName.getString();
+                String[] nameEmail = Split(Email, "@");
+                String nameTest = nameEmail[1];
+                if (nameTest.equals("gmail.com")) {
+                    Random rand = new Random();
+                    int RandomPass = rand.nextInt((10000 - 10000) + 10000);
+                    String Pass = "" + RandomPass;
+                    BusManageAccount bus = new BusManageAccount();
+                    String result = bus.registerUser(Email, Pass);
+                    if (result.startsWith("Ok")) {
+                        String result2 = bus.SendMailUser(Email, Pass);
+                        System.out.println("zzzcsssd" + result2);
+                        if (result2.startsWith("Oke")) {
+                            Alert altest = new Alert("Register Success", "Please check your email", null, AlertType.INFO);
+                            altest.setTimeout(Alert.FOREVER);
+                            txtuserName.setString("");
+                            txtpassword.setString("");
+                            display.setCurrent(altest, form);
+
+                        } else {
+                            Alert altest = new Alert("Register Fail", result2, null, AlertType.ERROR);
+                            altest.setTimeout(Alert.FOREVER);
+                            txtuserName.setString("");
+                            txtpassword.setString("");
+                            display.setCurrent(altest, form);
+                        }
+                    } else {
+                        Alert altest = new Alert("Register Fail", result, null, AlertType.ERROR);
+                        altest.setTimeout(Alert.FOREVER);
+                        txtuserName.setString("");
+                        txtpassword.setString("");
+                        display.setCurrent(altest, form);
+                    }
+                } else {
+                    Alert altest = new Alert("Register Fail", "Wrong format email", null, AlertType.WARNING);
+                    altest.setTimeout(Alert.FOREVER);
+                    txtuserName.setString("");
+                    txtpassword.setString("");
+                    display.setCurrent(altest, form);
+                }
+            } catch (Exception e) {
+                Alert altest = new Alert("Register Fail", "Wrong format email", null, AlertType.WARNING);
+                altest.setTimeout(Alert.FOREVER);
+                txtuserName.setString("");
+                txtpassword.setString("");
+                display.setCurrent(altest, form);
             }
 
+        } else if (c == recover) {
+            try {
+                String Email = txtuserName.getString();
+                String[] nameEmail = Split(Email, "@");
+                String nameTest = nameEmail[1];
+                if (nameTest.equals("gmail.com")) {
+                    Random rand = new Random();
+                    int RandomPass = rand.nextInt((10000 - 10000) + 10000);
+                    String Pass = "" + RandomPass;
+                    BusManageAccount bus = new BusManageAccount();
+                    String result = bus.registerUser(Email, Pass);
+                    if (result.startsWith("Ok")) {
+                        String result2 = bus.SendMailUser(Email, Pass);
+                        System.out.println("zzzcsssd" + result2);
+                        if (result2.startsWith("Oke")) {
+                            Alert altest = new Alert("Recover Success", "Please check your email", null, AlertType.INFO);
+                            altest.setTimeout(Alert.FOREVER);
+                            txtuserName.setString("");
+                            txtpassword.setString("");
+                            display.setCurrent(altest, form);
+
+                        } else {
+                            Alert altest = new Alert("Recover Fail", result2, null, AlertType.ERROR);
+                            altest.setTimeout(Alert.FOREVER);
+                            txtuserName.setString("");
+                            txtpassword.setString("");
+                            display.setCurrent(altest, form);
+                        }
+                    } else {
+                        Alert altest = new Alert("Recover Fail", result, null, AlertType.ERROR);
+                        altest.setTimeout(Alert.FOREVER);
+                        txtuserName.setString("");
+                        txtpassword.setString("");
+                        display.setCurrent(altest, form);
+                    }
+                } else {
+                    Alert altest = new Alert("Recover Fail", "Wrong format email", null, AlertType.WARNING);
+                    altest.setTimeout(Alert.FOREVER);
+                    txtuserName.setString("");
+                    txtpassword.setString("");
+                    display.setCurrent(altest, form);
+                }
+            } catch (Exception e) {
+                Alert altest = new Alert("Recover Fail", "Wrong format email", null, AlertType.WARNING);
+                altest.setTimeout(Alert.FOREVER);
+                txtuserName.setString("");
+                txtpassword.setString("");
+                display.setCurrent(altest, form);
+            }
         }
     }
-     public void menu() {
-        RecordTimeform f1 = new RecordTimeform("Record Time", Display.getDisplay(this).getCurrent(),uid);
+
+    public void menu() {
+        RecordTimeform f1 = new RecordTimeform("Record Time", Display.getDisplay(this).getCurrent(), uid);
         //ManageTag.ManageTagform f1 = new ManageTagform(display, uid);
         f1.setTicker(newsTicker);
         f1.setDisplay(this.display);
@@ -127,6 +225,5 @@ public class Midlet extends MIDlet implements CommandListener {
         }
         return splitArray;
     }
-    
 
 }

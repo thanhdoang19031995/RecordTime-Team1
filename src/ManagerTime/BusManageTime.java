@@ -77,28 +77,28 @@ public class BusManageTime {
     public String AddTime(String IdTag, String IdUser, String DateEnter, String BeginTime, String EndTime, String Content) {
         Content=encryption(Content);
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/AddTimeRecordSeverlet?IdTag=" + IdTag + "&IdUser=" + IdUser + "&DateEnter=" + DateEnter + "&BeginTime=" + BeginTime + "&EndTime=" + EndTime + "&Content=" + Content;
+        String url = "http://localhost:8080/K19T1_Team1/AddTimeRecordSeverlet?IdTag=" + IdTag + "&IdUser=" + IdUser + "&DateEnter=" + DateEnter + "&BeginTime=" + BeginTime + "&EndTime=" + EndTime + "&Content=" + Content;
         re = ConnectManageTime(url);
         return re;
     }
 
     public String ListTime(String IdUser) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/TimeRecordSeverlet?IdUser=" + IdUser;
+        String url = "http://localhost:8080/K19T1_Team1/TimeRecordSeverlet?IdUser=" + IdUser;
         re = ConnectManageTime(url);
         return re;
     }
 
     public String ListTimeID(String IdTime) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/TimeRecordSelectSeverlet?IdTime=" + IdTime;
+        String url = "http://localhost:8080/K19T1_Team1/TimeRecordSelectSeverlet?IdTime=" + IdTime;
         re = ConnectManageTime(url);
         return re;
     }
 
     public String DeleteTime(String IdTime) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/DeleteTimeRecordSeverlet?IdTime=" + IdTime;
+        String url = "http://localhost:8080/K19T1_Team1/DeleteTimeRecordSeverlet?IdTime=" + IdTime;
         re = ConnectManageTime(url);
         return re;
     }
@@ -106,7 +106,7 @@ public class BusManageTime {
     public String EditTime(String IdTime, String IdTag, String DateEnter, String BeginTime, String EndTime, String Content) {
         Content=encryption(Content);
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/EditTimeRecordSeverlet?IdTime=" + IdTime + "&IdTag=" + IdTag + "&DateEnter=" + DateEnter + "&BeginTime=" + BeginTime + "&EndTime=" + EndTime + "&Content=" + Content;
+        String url = "http://localhost:8080/K19T1_Team1/EditTimeRecordSeverlet?IdTime=" + IdTime + "&IdTag=" + IdTag + "&DateEnter=" + DateEnter + "&BeginTime=" + BeginTime + "&EndTime=" + EndTime + "&Content=" + Content;
         re = ConnectManageTime(url);
         return re;
     }

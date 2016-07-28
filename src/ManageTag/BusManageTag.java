@@ -21,7 +21,7 @@ public class BusManageTag {
         String re = "";
         Random r = new Random();
         long l = r.nextLong();
-        String url = "http://localhost:8085/K19T1_Team1/TagServlet?IdUser=" + UserId + "&rand=" + l;
+        String url = "http://localhost:8080/K19T1_Team1/TagServlet?IdUser=" + UserId + "&rand=" + l;
 
         re = ConnectManageTag(url);
         return re;
@@ -30,7 +30,7 @@ public class BusManageTag {
     public String AddTag(String UserId, String nameTag) {
         nameTag=encryption(nameTag);
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/AddTagSeverlet?IdUser=" + UserId + "&name=" + nameTag;
+        String url = "http://localhost:8080/K19T1_Team1/AddTagSeverlet?IdUser=" + UserId + "&name=" + nameTag;
         re = ConnectManageTag(url);
         return re;
     }
@@ -38,14 +38,14 @@ public class BusManageTag {
     public String Edittag(String UserId, String Idtags, String nameTag) {
         nameTag=encryption(nameTag);
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/EditTagSeverlet?IdUser=" + UserId + "&NameTag=" + nameTag + "&IdTag=" + Idtags;
+        String url = "http://localhost:8080/K19T1_Team1/EditTagSeverlet?IdUser=" + UserId + "&NameTag=" + nameTag + "&IdTag=" + Idtags;
         re = ConnectManageTag(url);
         return re;
     }
 
     public String DeleteTag(String Idtags) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/DeleteTagSeverlet?IdTag=" + Idtags;
+        String url = "http://localhost:8080/K19T1_Team1/DeleteTagSeverlet?IdTag=" + Idtags;
 
         re = ConnectManageTag(url);
         return re;

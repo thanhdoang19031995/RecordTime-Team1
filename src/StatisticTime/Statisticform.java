@@ -98,16 +98,22 @@ public final class Statisticform extends Form implements CommandListener {
 
     public void showListTag() {
         listGroup.deleteAll();
-        BusStatistic bus = new BusStatistic();
-        String sBeginTime = BusStatistic.getDateString(beginDate.getDate());
-        String sEndTime = BusStatistic.getDateString(endDate.getDate());
-        String sList = bus.ListTime(IdUser, sBeginTime, sEndTime);
-        String trim = sList.trim();
-        String[] list = bus.Split(trim, "\n");//show list
-        for (int i = 0; i < list.length; i++) {
-            String[] part = BusStatistic.Split(list[i], ";");
-           // System.err.println(list[i]);
-            listGroup.append("Tag: "+part[1] +"\n"+ "Content: " +part[4]+"\n"+ BusStatistic.getTimeString(part[2], part[3]), null);
+        try {
+            BusStatistic bus = new BusStatistic();
+            String sBeginTime = BusStatistic.getDateString(beginDate.getDate());
+            String sEndTime = BusStatistic.getDateString(endDate.getDate());
+            String sList = bus.ListTime(IdUser, sBeginTime, sEndTime);
+            String trim = sList.trim();
+            String[] list = BusStatistic.Split(trim, "\n");//show list
+            for (int i = 0; i < list.length; i++) {
+                String[] part = BusStatistic.Split(list[i], ";");
+                // System.err.println(list[i]);
+                listGroup.append("Tag: " + part[1] + "\n" + "Content: " + part[4] + "\n" + BusStatistic.getTimeString(part[2], part[3]), null);
+            }
+        } catch (Exception e) {
+            Alert altest = new Alert("", "zxczxc", null, AlertType.WARNING);
+            altest.setTimeout(Alert.FOREVER);
+            display.setCurrent(altest, this);
         }
     }
 

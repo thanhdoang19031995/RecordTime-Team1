@@ -65,7 +65,7 @@ public class BusStatistic {
     
     public String ListTime(String IdUser, String BeginDate, String EndDate) {
         String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/StatisticsTimeRecordServlet?IdUser=" + IdUser+ "&BeginDate=" +BeginDate+ "&EndDate=" +EndDate;
+        String url = "http://localhost:8080/K19T1_Team1/StatisticsTimeRecordServlet?IdUser=" + IdUser+ "&BeginDate=" +BeginDate+ "&EndDate=" +EndDate;
         re = ConnectManageTime(url);
         return re;
     }
