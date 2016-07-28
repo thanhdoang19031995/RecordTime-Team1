@@ -17,7 +17,7 @@ import javax.microedition.lcdui.*;
  */
 public class HistoryTimeform extends Form implements CommandListener {
 
-    Ticker newsTicker = new Ticker("Java J2ME");
+    Ticker newsTicker = new Ticker("Start Team");
     private Display display;
     Form form;
     Command comBack;
@@ -51,7 +51,7 @@ public class HistoryTimeform extends Form implements CommandListener {
         for (int i = 0; i < list.length; i++) {
             String[] part = Split(list[i], ";");
             //listGroup.append("" + part[1], null);
-            System.err.println(part[1] + " " + part[5] + "\n" + part[4] + " " + part[2] + " " + part[3]);
+            //System.err.println(part[1] + " " + part[5] + "\n" + part[4] + " " + part[2] + " " + part[3]);
             listGroup.append(part[1] + " " + part[5] + "\n" + part[4] + " " + part[2] + " " + part[3], null);
             listTime.addElement(part[0]);
             //listTimeAll.addElement(list[i]);//edit
@@ -115,7 +115,7 @@ public class HistoryTimeform extends Form implements CommandListener {
                 this.currentTimeIdselected = (String) listTime.elementAt(iSelected);
                 busTime.DeleteTime(currentTimeIdselected);
                 currentTimeIdselected = null;
-                Alert altest = new Alert("", "Deleted", null, AlertType.INFO);
+                Alert altest = new Alert("", "Deleted Sucessful", null, AlertType.INFO);
                 display.setCurrent(altest, this);
                 listime();
             } catch (Exception e) {

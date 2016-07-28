@@ -5,6 +5,7 @@
  */
 package ManageTag;
 
+import ManagerTime.BusManageTime;
 import ManagerTime.RecordTimeform;
 
 import java.util.Vector;
@@ -16,8 +17,7 @@ import javax.microedition.lcdui.*;
  * @author BaoNguyen
  */
 public class ManageTagform extends Form implements CommandListener {
-
-    Ticker newsTicker = new Ticker("Java J2ME");
+    Ticker newsTicker = new Ticker("Start Team");
     private Display display;
     Form form;
     Command comBack;
@@ -27,7 +27,7 @@ public class ManageTagform extends Form implements CommandListener {
     Command comDelete;
     ChoiceGroup listGroup;
     BusManageTag tagBus = new BusManageTag();
-    TextField txtTag = new TextField("", "", 100, TextField.ANY);
+    TextField txtTag = new TextField("Name Tag", "", 100, TextField.ANY);
     int iItemList;
     public String IdUser;
     public String IdTag;
@@ -50,7 +50,7 @@ public class ManageTagform extends Form implements CommandListener {
         for (int i = 0; i < list.length; i++) {
             String[] part = Split(list[i], ";");
             //listGroup.append("" + part[1], null);
-            System.err.println(part[1]);
+            //System.err.println(part[1]);
             listGroup.append(part[1], null);
             listTags.addElement(part[0]);
         }
@@ -92,10 +92,11 @@ public class ManageTagform extends Form implements CommandListener {
 
         } else if (c == comAdd) {
             try {
+                if(!testCase())return;
                 String name = txtTag.getString();
                 BusManageTag busAdd = new BusManageTag();
                 String re = busAdd.AddTag(IdUser, name);
-                Alert altest = new Alert("", re, null, AlertType.WARNING);
+                Alert altest = new Alert("", "Added New Tag Successful", null, AlertType.INFO);
                 display.setCurrent(altest, this);
                 listag();
 
@@ -108,6 +109,7 @@ public class ManageTagform extends Form implements CommandListener {
                 String sSelected = listGroup.getString(iSelected);
                 txtTag.setString(sSelected);
                 this.currentTagIdselected = (String) listTags.elementAt(iSelected);
+                
             } catch (Exception e) {
                 e.getMessage();
             }
@@ -118,7 +120,7 @@ public class ManageTagform extends Form implements CommandListener {
                 tagBus.DeleteTag(currentTagIdselected);
                 currentTagIdselected = null;
 
-                Alert altest = new Alert("", "Deleted", null, AlertType.INFO);
+                Alert altest = new Alert("", "Deleted Successful", null, AlertType.INFO);
                 display.setCurrent(altest, this);
                 listag();
 
@@ -126,16 +128,35 @@ public class ManageTagform extends Form implements CommandListener {
                 e.getMessage();
             }
         } else if (c == comSave) {
+            if(!testCase())return;
             if (currentTagIdselected != null) {
                 tagBus.Edittag(IdUser, this.currentTagIdselected, txtTag.getString());
                 currentTagIdselected = null;
-                Alert altest = new Alert("", "Edited", null, AlertType.INFO);
+                Alert altest = new Alert("", "Edited Successful", null, AlertType.INFO);
                 display.setCurrent(altest, this);
                 listag();
             }
         }
     }
-
+ 
+    public boolean testCase(){
+        if(txtTag.getString().equals("")){
+            Alert altest = new Alert("", MessageTag.sTagNoInformation, null, AlertType.WARNING);
+            display.setCurrent(altest, this);
+            return false;
+        }else if(txtTag.getString().length()>0 && txtTag.getString().trim().equals("")){
+            Alert altest = new Alert("", MessageTag.sTagSpace, null, AlertType.WARNING);
+            display.setCurrent(altest, this);
+            txtTag.setString("");
+            return false;
+        } if (BusManageTime.isSpecalCharacter(txtTag.getString())) {
+            Alert altest = new Alert("", MessageTag.sErrorSpecialCharacter, null, AlertType.WARNING);
+            display.setCurrent(altest, this);
+            txtTag.setString("");
+            return false;
+        }
+        return true;
+    }
     public static String[] Split(String splitStr, String delimiter) {
         StringBuffer token = new StringBuffer();
         Vector tokens = new Vector();

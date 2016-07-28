@@ -3,55 +3,74 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ManageTag;
+package StatisticTime;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Random;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
 /**
  *
- * 
+ * @author ThanhDoang
  */
-public class BusManageTag {
+public class BusStatistic {
+    public static String getDateString(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        //calendar.setTimeZone(value);
+        return year + "-" + month + "-" + day;
+    }
+    
+    public static String getTimeString(long time){
+        time=time/1000;
+        //int dayTime=24*60*60*1000;
+        String sResult="";
+        sResult+=confixTime(time/3600)+":";
+        time=time%3600;
+        sResult+=confixTime(time/60)+":";
+        time=time%60;
+        sResult+=confixTime(time);
+        return sResult;
+    }
+    
+    public static String confixTime(long time){
+        return time>9?""+time:"0"+time;
+    }
+    public static String getTimeString(String time1, String time2){
+        return getTimeString(getTime(time1, time2));
+    }
+    public static long getTime(String time1, String time2){
+        return getTime(time2)-getTime(time1);
+    }
+    
+    public static long getTime(String time1){
+        //int dayTime=24*60*60*1000;
+        String[] partTime = Split(time1, ":");
 
-    public String ListTag(String UserId) {
+        long hour = Long.parseLong(partTime[0]);
+        System.out.println("Step1: "+"year:"+hour);
+        long minute = Long.parseLong(partTime[1]);
+        System.out.println("Step2: "+"month:"+minute);
+        long second = Long.parseLong(partTime[2].trim());
+        System.out.println("Step3: "+"month:"+second);
+        return (hour*60*60+minute*60+second)*1000;
+    }
+    
+    public String ListTime(String IdUser, String BeginDate, String EndDate) {
         String re = "";
-        Random r = new Random();
-        long l = r.nextLong();
-        String url = "http://localhost:8085/K19T1_Team1/TagServlet?IdUser=" + UserId + "&rand=" + l;
-
-        re = ConnectManageTag(url);
+        String url = "http://localhost:8085/K19T1_Team1/StatisticsTimeRecordServlet?IdUser=" + IdUser+ "&BeginDate=" +BeginDate+ "&EndDate=" +EndDate;
+        re = ConnectManageTime(url);
         return re;
     }
-
-    public String AddTag(String UserId, String nameTag) {
-        nameTag=encryption(nameTag);
-        String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/AddTagSeverlet?IdUser=" + UserId + "&name=" + nameTag;
-        re = ConnectManageTag(url);
-        return re;
-    }
-
-    public String Edittag(String UserId, String Idtags, String nameTag) {
-        nameTag=encryption(nameTag);
-        String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/EditTagSeverlet?IdUser=" + UserId + "&NameTag=" + nameTag + "&IdTag=" + Idtags;
-        re = ConnectManageTag(url);
-        return re;
-    }
-
-    public String DeleteTag(String Idtags) {
-        String re = "";
-        String url = "http://localhost:8085/K19T1_Team1/DeleteTagSeverlet?IdTag=" + Idtags;
-
-        re = ConnectManageTag(url);
-        return re;
-    }
-    public String ConnectManageTag(String URL) {
-
+    
+     public String ConnectManageTime(String URL) {
         String re = "";
         long len = 0;
         int ch = 0;
@@ -82,28 +101,8 @@ public class BusManageTag {
         }
         return re;
     }
-        public static String keyEncryption="%20";
-    public static String encryption(String sValue){
-        String sEncryption="";
-        sValue=sValue.trim();
-        for(int i=0;i<sValue.length();i++ ){
-            if(sValue.substring(i, i+1).equals(" "))
-                sEncryption+=keyEncryption;
-            else 
-                sEncryption+=sValue.substring(i, i+1);
-        }
-        return sEncryption;
-    }
-    public static String decryption(String sDecryp){
-        String[] sValue=Split(sDecryp, keyEncryption);
-        String sResult="";
-        for(int i=0;i<sValue.length;i++){
-            sResult+=sValue[i]+" ";
-        }
-        return sResult.trim();
-    } 
-    
-        public static String[] Split(String splitStr, String delimiter) {
+
+    public static String[] Split(String splitStr, String delimiter) {
         StringBuffer token = new StringBuffer();
         Vector tokens = new Vector();
         // split
@@ -130,8 +129,4 @@ public class BusManageTag {
         }
         return splitArray;
     }
-        
-//    public boolean isSpecialCharacter(String sValue){
-//         return true;  
-//    }
 }

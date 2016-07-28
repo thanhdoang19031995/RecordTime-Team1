@@ -43,11 +43,11 @@ public class BusManageTime {
         String[] partTime = Split(time1, ":");
 
         long hour = Long.parseLong(partTime[0]);
-        System.out.println("Step1: "+"year:"+hour);
+        //System.out.println("Step1: "+"year:"+hour);
         long minute = Long.parseLong(partTime[1]);
-        System.out.println("Step2: "+"month:"+minute);
+       // System.out.println("Step2: "+"month:"+minute);
         long second = Long.parseLong(partTime[2].trim());
-        System.out.println("Step3: "+"month:"+second);
+        //System.out.println("Step3: "+"month:"+second);
         return (hour*60*60+minute*60+second)*1000;
     }
     
@@ -59,7 +59,7 @@ public class BusManageTime {
         int year2 = calendar.get(Calendar.YEAR);
         int month2 = calendar.get(Calendar.MONTH)+1;
         int day2 = calendar.get(Calendar.DAY_OF_MONTH);
-        System.out.println("Step1: "+"year:"+year2+" month: "+month2+" day: "+day2);
+       // System.out.println("Step1: "+"year:"+year2+" month: "+month2+" day: "+day2);
         
         String[] partdate = Split(date1, "-");
 
@@ -75,6 +75,7 @@ public class BusManageTime {
     }
 
     public String AddTime(String IdTag, String IdUser, String DateEnter, String BeginTime, String EndTime, String Content) {
+        Content=encryption(Content);
         String re = "";
         String url = "http://localhost:8085/K19T1_Team1/AddTimeRecordSeverlet?IdTag=" + IdTag + "&IdUser=" + IdUser + "&DateEnter=" + DateEnter + "&BeginTime=" + BeginTime + "&EndTime=" + EndTime + "&Content=" + Content;
         re = ConnectManageTime(url);
@@ -103,6 +104,7 @@ public class BusManageTime {
     }
 
     public String EditTime(String IdTime, String IdTag, String DateEnter, String BeginTime, String EndTime, String Content) {
+        Content=encryption(Content);
         String re = "";
         String url = "http://localhost:8085/K19T1_Team1/EditTimeRecordSeverlet?IdTime=" + IdTime + "&IdTag=" + IdTag + "&DateEnter=" + DateEnter + "&BeginTime=" + BeginTime + "&EndTime=" + EndTime + "&Content=" + Content;
         re = ConnectManageTime(url);
@@ -110,7 +112,6 @@ public class BusManageTime {
     }
 
     public String ConnectManageTime(String URL) {
-
         String re = "";
         long len = 0;
         int ch = 0;
@@ -198,5 +199,37 @@ public class BusManageTime {
         long timeH=(hour*60*60+minute*60+second)*1000;
         d.setTime(d.getTime()-timeH);
         return d;
+    }
+    
+    public static String keyEncryption="%20";
+    public static String encryption(String sValue){
+        String sEncryption="";
+        sValue=sValue.trim();
+        for(int i=0;i<sValue.length();i++ ){
+            if(sValue.substring(i, i+1).equals(" "))
+                sEncryption+=keyEncryption;
+            else 
+                sEncryption+=sValue.substring(i, i+1);
+        }
+        return sEncryption;
+    }
+    public static String decryption(String sDecryp){
+        String[] sValue=Split(sDecryp, keyEncryption);
+        String sResult="";
+        for(int i=0;i<sValue.length;i++){
+            sResult+=sValue[i]+" ";
+        }
+        return sResult.trim();
+    } 
+    
+    public static boolean isSpecalCharacter(String value){
+        String special = "!@#$%^&*()_";
+        for(int i=0;i<value.length();i++){
+            for(int j=0;j<special.length();j++){
+                if(special.substring(j, j+1).equals(value.substring(i, i+1)))
+                    return true;
+            }
+        }
+        return false;
     }
 }

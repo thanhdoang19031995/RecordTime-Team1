@@ -8,7 +8,7 @@ import javax.microedition.lcdui.*;
 
 public class Midlet extends MIDlet implements CommandListener {
 
-    Ticker newsTicker = new Ticker("Java J2ME");
+    Ticker newsTicker = new Ticker("Start Team");
     private Display display;
     private final TextField txtuserName;
     private final TextField txtpassword;
@@ -77,7 +77,7 @@ public class Midlet extends MIDlet implements CommandListener {
                 if (part1.equals("Ok")) {
                     uid = "" + idUser;
                     menu();
-                    System.out.println("SUCCESSFUL");
+                 //   System.out.println("SUCCESSFUL");
                 }
             } catch (Exception e) {
                 Alert error = new Alert("Login Incorrect", "Please try again", null, AlertType.ERROR);
@@ -86,7 +86,7 @@ public class Midlet extends MIDlet implements CommandListener {
                 txtpassword.setString("");
                 display.setCurrent(error, form);
                 e.getMessage();
-                System.out.println("Fail");
+               // System.out.println("Fail");
             }
 
         }
