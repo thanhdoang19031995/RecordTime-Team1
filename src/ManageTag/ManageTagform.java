@@ -117,19 +117,25 @@ public class ManageTagform extends Form implements CommandListener {
                 e.getMessage();
             }
         } else if (c == comDelete) {
-            try {
-                int iSelected = listGroup.getSelectedIndex();
-                this.currentTagIdselected = (String) listTags.elementAt(iSelected);
-                tagBus.DeleteTag(currentTagIdselected);
-                currentTagIdselected = null;
-
-                Alert altest = new Alert("", "Deleted Successful", null, AlertType.INFO);
-                display.setCurrent(altest, this);
-                listag();
-
-            } catch (Exception e) {
-                e.getMessage();
-            }
+            int iSelected = listGroup.getSelectedIndex();
+            this.currentTagIdselected = (String) listTags.elementAt(iSelected);
+            Alert deleteAlert = new Alert("Delete Tag",
+                    "Are you sure you want to delete tag?", null, AlertType.WARNING);
+            deleteAlert.addCommand(new Command("Yes", Command.EXIT, 1));
+            deleteAlert.addCommand(new Command("No", Command.SCREEN, 2));
+            deleteAlert.setCommandListener(new CommandListener() {
+                public void commandAction(Command c, Displayable d) {
+                    String label = c.getLabel();
+                    if (label.equals("Yes")) {
+                        tagBus.DeleteTag(currentTagIdselected);
+                        currentTagIdselected = null;
+                        listag();
+                    }
+                    display.setCurrent(form);
+                }
+            });
+            deleteAlert.setTimeout(Alert.FOREVER);
+            display.setCurrent(deleteAlert);
         } else if (c == comSave) {
             if (!testCase()) {
                 return;

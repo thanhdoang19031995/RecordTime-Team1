@@ -99,17 +99,25 @@ public class HistoryTimeform extends Form implements CommandListener {
                 e.getMessage();
             }
         } else if (c == comDelete) {
-            try {
-                int iSelected = listGroup.getSelectedIndex();
-                this.currentTimeIdselected = (String) listTime.elementAt(iSelected);
-                busTime.DeleteTime(currentTimeIdselected);
-                currentTimeIdselected = null;
-                Alert altest = new Alert("", "Deleted Sucessful", null, AlertType.INFO);
-                display.setCurrent(altest, this);
-                listime();
-            } catch (Exception e) {
-                e.getMessage();
-            }
+            int iSelected = listGroup.getSelectedIndex();
+            this.currentTimeIdselected = (String) listTime.elementAt(iSelected);
+            Alert deleteAlert = new Alert("Delete Record Time",
+                    "Are you sure you want to delete record time?", null, AlertType.WARNING);
+            deleteAlert.addCommand(new Command("Yes", Command.EXIT, 1));
+            deleteAlert.addCommand(new Command("No", Command.SCREEN, 2));
+            deleteAlert.setCommandListener(new CommandListener() {
+                public void commandAction(Command c, Displayable d) {
+                    String label = c.getLabel();
+                    if (label.equals("Yes")) {
+                        busTime.DeleteTime(currentTimeIdselected);
+                        currentTimeIdselected = null;
+                        listime();
+                    }
+                    display.setCurrent(form);
+                }
+            });
+            deleteAlert.setTimeout(Alert.FOREVER);
+            display.setCurrent(deleteAlert);
         }
 
     }

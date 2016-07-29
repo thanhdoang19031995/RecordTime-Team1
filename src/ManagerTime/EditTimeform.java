@@ -99,7 +99,6 @@ public final class EditTimeform extends Form implements CommandListener {
             f1.setTicker(newsTicker);
             f1.setDisplay(this.display);
             this.display.setCurrent(f1);
-            //System.out.println("Change History: " + sIdUser);
         } else if (label.equals("Save")) {
             if (!testCase()) {
                 return;
@@ -127,7 +126,7 @@ public final class EditTimeform extends Form implements CommandListener {
     }
 
     private void loadEditRecordTime() {
-       // System.out.println(sIdTime);
+        // System.out.println(sIdTime);
 
         String sRecordTime = bus.ListTimeID(sIdTime);
         //System.out.println(sRecordTime);
@@ -147,14 +146,14 @@ public final class EditTimeform extends Form implements CommandListener {
             beginTime.setDate(dateDefaulte);
             dateDefaulte.setTime(longDay + BusManageTime.getTime(part[5]));
             endTime.setDate(dateDefaulte);
-           // System.err.println(BusManageTime.getDefaulDate());
+            // System.err.println(BusManageTime.getDefaulDate());
             sIdUser = part[1];
-         //   System.err.println("IDUSer: " + sIdUser);
+            //   System.err.println("IDUSer: " + sIdUser);
             sIdTag = part[2].trim();
 
             listTag();
         } catch (Exception d) {
-           // System.err.println(d.getMessage());
+            // System.err.println(d.getMessage());
         }
 
     }
@@ -173,12 +172,12 @@ public final class EditTimeform extends Form implements CommandListener {
             listGroup.append(part[1], null);
             listTags.addElement(part[0]);
         }
-       // System.err.println("IDTAG:" + sIdTag);
+        // System.err.println("IDTAG:" + sIdTag);
         listGroup.setSelectedIndex(listTags.indexOf(sIdTag), true);
         //listGroup.setS
     }
 
-   public boolean testCase() {
+    public boolean testCase() {
         if (content.getString().equals("")) {
             Alert altest = new Alert("", MessageRecordTime.sErrorContent, null, AlertType.WARNING);
             display.setCurrent(altest, this);
@@ -191,13 +190,13 @@ public final class EditTimeform extends Form implements CommandListener {
             content.setString("");
             return false;
         }
-         if (BusManageTime.isSpecalCharacter(content.getString())) {
+        if (BusManageTime.isSpecalCharacter(content.getString())) {
             Alert altest = new Alert("", MessageRecordTime.sErrorSpecialCharacter, null, AlertType.WARNING);
             display.setCurrent(altest, this);
             content.setString("");
             return false;
-        } 
-       
+        }
+
         if (endTime.getDate().getTime() <= beginTime.getDate().getTime()) {
             Alert altest = new Alert("", MessageRecordTime.sErrorBeginTime, null, AlertType.WARNING);
             display.setCurrent(altest, this);
