@@ -8,7 +8,7 @@ import javax.microedition.lcdui.*;
 
 public class Midlet extends MIDlet implements CommandListener {
 
-    Ticker newsTicker = new Ticker("Java J2ME");
+    Ticker newsTicker = new Ticker("Start Team");
     private Display display;
     private final TextField txtuserName;
     private final TextField txtpassword;
@@ -30,7 +30,7 @@ public class Midlet extends MIDlet implements CommandListener {
         recover = new Command("Recover PassWord", Command.OK, 2);
 
     }
-
+    
     public void startApp() {
         display = Display.getDisplay(this);
         form.setTicker(newsTicker);
@@ -61,7 +61,6 @@ public class Midlet extends MIDlet implements CommandListener {
     BusManageAccount User = new BusManageAccount();
 
     public void commandAction(Command c, Displayable d) {
-        //String label = c.getLabel();
         if (c == cancel) {
             destroyApp(true);
         } else if (c == login) {
@@ -196,6 +195,10 @@ public class Midlet extends MIDlet implements CommandListener {
         f1.setDisplay(this.display);
         display = Display.getDisplay(this);
         display.setCurrent(f1);
+    }
+
+    public void setDisplay(Display display) {
+        this.display = display;
     }
 
     public static String[] Split(String splitStr, String delimiter) {

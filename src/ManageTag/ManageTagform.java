@@ -17,6 +17,7 @@ import javax.microedition.lcdui.*;
  * @author BaoNguyen
  */
 public class ManageTagform extends Form implements CommandListener {
+
     Ticker newsTicker = new Ticker("Start Team");
     private Display display;
     Form form;
@@ -92,7 +93,9 @@ public class ManageTagform extends Form implements CommandListener {
 
         } else if (c == comAdd) {
             try {
-                if(!testCase())return;
+                if (!testCase()) {
+                    return;
+                }
                 String name = txtTag.getString();
                 BusManageTag busAdd = new BusManageTag();
                 String re = busAdd.AddTag(IdUser, name);
@@ -109,7 +112,7 @@ public class ManageTagform extends Form implements CommandListener {
                 String sSelected = listGroup.getString(iSelected);
                 txtTag.setString(sSelected);
                 this.currentTagIdselected = (String) listTags.elementAt(iSelected);
-                
+
             } catch (Exception e) {
                 e.getMessage();
             }
@@ -128,7 +131,9 @@ public class ManageTagform extends Form implements CommandListener {
                 e.getMessage();
             }
         } else if (c == comSave) {
-            if(!testCase())return;
+            if (!testCase()) {
+                return;
+            }
             if (currentTagIdselected != null) {
                 tagBus.Edittag(IdUser, this.currentTagIdselected, txtTag.getString());
                 currentTagIdselected = null;
@@ -138,18 +143,19 @@ public class ManageTagform extends Form implements CommandListener {
             }
         }
     }
- 
-    public boolean testCase(){
-        if(txtTag.getString().equals("")){
+
+    public boolean testCase() {
+        if (txtTag.getString().equals("")) {
             Alert altest = new Alert("", MessageTag.sTagNoInformation, null, AlertType.WARNING);
             display.setCurrent(altest, this);
             return false;
-        }else if(txtTag.getString().length()>0 && txtTag.getString().trim().equals("")){
+        } else if (txtTag.getString().length() > 0 && txtTag.getString().trim().equals("")) {
             Alert altest = new Alert("", MessageTag.sTagSpace, null, AlertType.WARNING);
             display.setCurrent(altest, this);
             txtTag.setString("");
             return false;
-        } if (BusManageTime.isSpecalCharacter(txtTag.getString())) {
+        }
+        if (BusManageTime.isSpecalCharacter(txtTag.getString())) {
             Alert altest = new Alert("", MessageTag.sErrorSpecialCharacter, null, AlertType.WARNING);
             display.setCurrent(altest, this);
             txtTag.setString("");
@@ -157,6 +163,7 @@ public class ManageTagform extends Form implements CommandListener {
         }
         return true;
     }
+
     public static String[] Split(String splitStr, String delimiter) {
         StringBuffer token = new StringBuffer();
         Vector tokens = new Vector();

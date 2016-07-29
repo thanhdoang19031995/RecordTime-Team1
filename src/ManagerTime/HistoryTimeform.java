@@ -5,8 +5,6 @@
  */
 package ManagerTime;
 
-import ManagerTime.RecordTimeform;
-
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.*;
@@ -88,15 +86,6 @@ public class HistoryTimeform extends Form implements CommandListener {
             f1.setTicker(newsTicker);
             f1.setDisplay(this.display);
             this.display.setCurrent(f1);
-//            else if (c == comEdit) {
-//            try {
-//                int iSelected = listGroup.getSelectedIndex();
-//                String sSelected = listGroup.getString(iSelected);
-//                txtTag.setString(sSelected);
-//                this.currentTagIdselected = (String) listTags.elementAt(iSelected);
-//            } catch (Exception e) {
-//                e.getMessage();
-//            }
         } else if (c == comEdit) {
             try {
                 int iSelected = listGroup.getSelectedIndex();

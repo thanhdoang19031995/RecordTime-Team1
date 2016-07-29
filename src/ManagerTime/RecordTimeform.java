@@ -8,7 +8,6 @@ package ManagerTime;
 import ManageTag.BusManageTag;
 import javax.microedition.lcdui.DateField;
 import ManageTag.ManageTagform;
-import ManageTag.MessageTag;
 import StatisticTime.Statisticform;
 import java.util.Vector;
 import javax.microedition.lcdui.Form;
@@ -125,7 +124,7 @@ public final class RecordTimeform extends Form implements CommandListener {
             f1.setTicker(newsTicker);
             this.display.setCurrent(f1);
         } else if (label.equals("History")) {
-          //  System.out.println("idUser" + IdUser);
+            //  System.out.println("idUser" + IdUser);
             HistoryTimeform f1 = new HistoryTimeform("History", IdUser);
             f1.setDisplay(this.display);
             f1.setTicker(newsTicker);
@@ -137,7 +136,7 @@ public final class RecordTimeform extends Form implements CommandListener {
             }
             getRecordTime();
         } else if (label.equals("Statistic")) {
-           // System.out.println("idUser:" + IdUser);
+            // System.out.println("idUser:" + IdUser);
             Statisticform f1 = new Statisticform("Statistic", IdUser);
             f1.setDisplay(this.display);
             f1.setTicker(newsTicker);
@@ -159,21 +158,21 @@ public final class RecordTimeform extends Form implements CommandListener {
             content.setString("");
             return false;
         }
-       if (BusManageTime.isSpecalCharacter(content.getString())) {
+        if (BusManageTime.isSpecalCharacter(content.getString())) {
             Alert altest = new Alert("", MessageRecordTime.sErrorSpecialCharacter, null, AlertType.WARNING);
             display.setCurrent(altest, this);
             content.setString("");
             return false;
-        }  
-         
+        }
+
         //return true;
         if (beginTime.getDate() == null) {
             Alert altest = new Alert("", MessageRecordTime.sNotBeginTime, null, AlertType.WARNING);
             display.setCurrent(altest, this);
             return false;
         }
-        
-         if (endTime.getDate() == null) {
+
+        if (endTime.getDate() == null) {
             Alert altest = new Alert("", MessageRecordTime.sNotEndTime, null, AlertType.WARNING);
             display.setCurrent(altest, this);
             return false;
@@ -184,7 +183,7 @@ public final class RecordTimeform extends Form implements CommandListener {
             display.setCurrent(altest, this);
             return false;
         }
-       
+
         return true;
     }
 
@@ -202,7 +201,7 @@ public final class RecordTimeform extends Form implements CommandListener {
         String sIdTag = listTags.elementAt(listGroup.getSelectedIndex()).toString();
         BusManageTime bus = new BusManageTime();
         String sResult = bus.AddTime(sIdTag, IdUser, sDate, sBeginTime, sEndTime, sContent);
-        Alert altest = new Alert("","Recorded New Time", null, AlertType.INFO);
+        Alert altest = new Alert("", "Recorded New Time", null, AlertType.INFO);
         display.setCurrent(altest, this);
     }
 }

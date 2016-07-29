@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ManageTag;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -13,7 +14,7 @@ import javax.microedition.io.HttpConnection;
 
 /**
  *
- * 
+ *
  */
 public class BusManageTag {
 
@@ -28,15 +29,15 @@ public class BusManageTag {
     }
 
     public String AddTag(String UserId, String nameTag) {
-        nameTag=encryption(nameTag);
+        nameTag = encryption(nameTag);
         String re = "";
-        String url = "http://localhost:8080/K19T1_Team1/AddTagSeverlet?IdUser=" + UserId + "&name=" + nameTag;
+        String url = "http://localhost:8080/K19T1_Team1/AddTagSeverlet?IdUser=" + UserId + "&NameTag=" + nameTag;
         re = ConnectManageTag(url);
         return re;
     }
 
     public String Edittag(String UserId, String Idtags, String nameTag) {
-        nameTag=encryption(nameTag);
+        nameTag = encryption(nameTag);
         String re = "";
         String url = "http://localhost:8080/K19T1_Team1/EditTagSeverlet?IdUser=" + UserId + "&NameTag=" + nameTag + "&IdTag=" + Idtags;
         re = ConnectManageTag(url);
@@ -50,6 +51,7 @@ public class BusManageTag {
         re = ConnectManageTag(url);
         return re;
     }
+
     public String ConnectManageTag(String URL) {
 
         String re = "";
@@ -82,28 +84,31 @@ public class BusManageTag {
         }
         return re;
     }
-        public static String keyEncryption="%20";
-    public static String encryption(String sValue){
-        String sEncryption="";
-        sValue=sValue.trim();
-        for(int i=0;i<sValue.length();i++ ){
-            if(sValue.substring(i, i+1).equals(" "))
-                sEncryption+=keyEncryption;
-            else 
-                sEncryption+=sValue.substring(i, i+1);
+    public static String keyEncryption = "%20";
+
+    public static String encryption(String sValue) {
+        String sEncryption = "";
+        sValue = sValue.trim();
+        for (int i = 0; i < sValue.length(); i++) {
+            if (sValue.substring(i, i + 1).equals(" ")) {
+                sEncryption += keyEncryption;
+            } else {
+                sEncryption += sValue.substring(i, i + 1);
+            }
         }
         return sEncryption;
     }
-    public static String decryption(String sDecryp){
-        String[] sValue=Split(sDecryp, keyEncryption);
-        String sResult="";
-        for(int i=0;i<sValue.length;i++){
-            sResult+=sValue[i]+" ";
+
+    public static String decryption(String sDecryp) {
+        String[] sValue = Split(sDecryp, keyEncryption);
+        String sResult = "";
+        for (int i = 0; i < sValue.length; i++) {
+            sResult += sValue[i] + " ";
         }
         return sResult.trim();
-    } 
-    
-        public static String[] Split(String splitStr, String delimiter) {
+    }
+
+    public static String[] Split(String splitStr, String delimiter) {
         StringBuffer token = new StringBuffer();
         Vector tokens = new Vector();
         // split
@@ -130,7 +135,7 @@ public class BusManageTag {
         }
         return splitArray;
     }
-        
+
 //    public boolean isSpecialCharacter(String sValue){
 //         return true;  
 //    }

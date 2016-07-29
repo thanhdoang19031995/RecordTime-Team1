@@ -18,7 +18,7 @@ public class BusManageAccount {
 
     public String Login(String Email, String Password) {
         String re = "";
-        String url = "http://localhost:8080/K19T1_Team1/LoginAccount?email=" + Email + "&password=" + Password;
+        String url = "http://localhost:8080/K19T1_Team1/LoginAccount?Email=" + Email + "&Password=" + Password;
         re = Connect(url);
         return re;
     }
